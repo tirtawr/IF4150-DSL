@@ -1,5 +1,3 @@
-package songplayer;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -14,9 +12,7 @@ import javax.sound.midi.Synthesizer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 public class SongPlayer {
-
     static List<Integer> octaves = new ArrayList();
     static List<String> pitches = new ArrayList();
     static List<Integer> values = new ArrayList();
@@ -119,9 +115,9 @@ public class SongPlayer {
 
 
         }
-    
+
     }
-        
+
     public static void parseDSL(String dslText) {
         for(String note : dslText.split(" ")){
             if(note.contains("-")){
@@ -133,5 +129,3 @@ public class SongPlayer {
     }
     
 }
-    
-
