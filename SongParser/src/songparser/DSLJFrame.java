@@ -6,32 +6,25 @@
 package songparser;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Synthesizer;
 
 /**
  *
- * @author ASUS
+ * @author Tirta
  */
-public class NewJFrame extends javax.swing.JFrame {
+public class DSLJFrame extends javax.swing.JFrame {
 
     
-    static List<Integer> octaves = new ArrayList();
-    static List<String> pitches = new ArrayList();
-    static List<Integer> values = new ArrayList();
+
     /**
      * Creates new form NewJFrame
      */
-    public NewJFrame() {
+    public DSLJFrame() {
         initComponents();
     }
 
@@ -122,8 +115,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         //Play song
-        parseDSL(jTextArea1.getText());
-        playSong();
+        SongPlayer player = new SongPlayer();
+        player.parseDSL(jTextArea1.getText());
+        player.playSong();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -142,21 +136,18 @@ public class NewJFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DSLJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new NewJFrame().setVisible(true);
+                new DSLJFrame().setVisible(true);
             }
         });
         
@@ -170,122 +161,27 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
-    public static void parseDSL(String dslText){
-        octaves = new ArrayList();
-        pitches = new ArrayList();
-        values = new ArrayList();
-        
-        for(String note : dslText.split(" ")){
-            if(note.contains("-")){
-                System.out.println("|"+note.split("-")[0]+"|");
-                System.out.println("|"+note.split("-")[1]+"|");
-                System.out.println("|"+note.split("-")[2]+"|");
-                octaves.add(Integer.parseInt(note.split("-")[0]));
-                pitches.add(note.split("-")[1]);
-                values.add(Integer.parseInt(note.split("-")[2]));
-            }   
-        }
-    }
 
-    public static void playSong(){
-        MidiHandler midiHandler = new MidiHandler(400);
-        int i;
-        for(i=0;i<pitches.size();i++){
-            System.out.println(pitches.get(i) + "--");
-            System.out.println(octaves.get(i) +" "+ pitches.get(i) +" "+ values.get(i));
-            try {
-                midiHandler.play(octaves.get(i), pitches.get(i), values.get(i));
-            } catch (InterruptedException ex) {
-//                Logger.getLogger(SongPlayer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }    
-    
-    }
     
     public void writeSourceCode(String dslText){
-        PrintWriter writer = null;
+        PrintWriter writer;
+        writer = null;
         try {
             writer = new PrintWriter("SongPlayer.java", "UTF-8");
             writer.print(souceCodeTop);
             writer.print(dslText);
             writer.print(SourceCodeBottom);
             writer.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+            Logger.getLogger(DSLJFrame.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            writer.close();
+            if(null != writer){
+                writer.close();
+            }
         }
     }
     
-    static class MidiHandler {
-        Synthesizer syn = null;
-        MidiChannel[] mc = null;
-        int tempo = 100;
-        public MidiHandler(int mTempo){
-            try {
-                tempo = mTempo;
-                syn = MidiSystem.getSynthesizer();
-                syn.open();
-                mc = syn.getChannels();
-            } catch (MidiUnavailableException ex) {
-                Logger.getLogger(MidiHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        public void play(int octave, String pitch, int value) throws InterruptedException{
-            int noteNumber = octave*12;
-            switch(pitch){
-                case "C":
-                    break;
-                case "C#":
-                    noteNumber+=1;
-                    break;
-                case "D":
-                    noteNumber+=2;
-                    break;
-                case "D#":
-                    noteNumber+=3;
-                    break;
-                case "E":
-                    noteNumber+=4;
-                    break;
-                case "F":
-                    noteNumber+=5;
-                    break;
-                case "F#":
-                    noteNumber+=6;
-                    break;
-                case "G":
-                    noteNumber+=7;
-                    break;
-                case "G#":
-                    noteNumber+=8;
-                    break;
-                case "A":
-                    noteNumber+=9;
-                    break;
-                case "A#":
-                    noteNumber+=10;
-                    break;
-                case "B":
-                    noteNumber+=11;                
-                    break;
-            }
-            if(!"R".equals(pitch)){
-                mc[1].noteOn(noteNumber,600);
-                Thread.sleep(50000*value/tempo);
-                mc[1].noteOff(noteNumber);
-            }else{
-                Thread.sleep(50000*value/tempo);
-            }
-
-
-        }
     
-    }
-
     static String souceCodeTop = ""
             + "import java.awt.event.ActionEvent;\n"
             + "import java.awt.event.ActionListener;\n"

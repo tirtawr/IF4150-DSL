@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="songparser">
+  <ClassDiagramComponents>
+    <Class name="DSLJFrame" package="songparser" visibility="public" xPosition="396.0" yPosition="249.0">
+      <Fields>
+        <Field name="jButton1" type="javax.swing.JButton" visibility="private"/>
+        <Field name="jButton2" type="javax.swing.JButton" visibility="private"/>
+        <Field name="jLabel1" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jScrollPane1" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jTextArea1" type="javax.swing.JTextArea" visibility="private"/>
+        <Field name="souceCodeTop" type="String" visibility="package" isStatic="true"/>
+        <Field name="SourceCodeBottom" type="String" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="jButton1ActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="jButton2ActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="writeSourceCode" returnType="void" visibility="public">
+          <Argument type="String" name="dslText"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MidiHandler" package="songparser" visibility="public" xPosition="92.0" yPosition="382.0">
+      <Fields>
+        <Field name="syn" type="Synthesizer" visibility="package"/>
+        <Field name="mc" type="MidiChannel[]" visibility="package"/>
+        <Field name="tempo" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="mTempo"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="play" returnType="void" visibility="public">
+          <Argument type="int" name="octave"/>
+          <Argument type="String" name="pitch"/>
+          <Argument type="int" name="value"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SongParser" package="songparser" visibility="public" xPosition="481.0" yPosition="105.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SongPlayer" package="songparser" visibility="public" xPosition="107.0" yPosition="105.0">
+      <Fields>
+        <Field name="octaves" type="List&lt;Integer&gt;" visibility="package" isStatic="true"/>
+        <Field name="pitches" type="List&lt;String&gt;" visibility="package" isStatic="true"/>
+        <Field name="values" type="List&lt;Integer&gt;" visibility="package" isStatic="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="parseDSL" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="dslText"/>
+        </Method>
+        <Method name="playSong" returnType="void" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation name="" source="songparser.SongPlayer" target="songparser.DSLJFrame" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="" source="songparser.MidiHandler" target="songparser.SongPlayer" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="" source="songparser.DSLJFrame" target="songparser.SongParser" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
